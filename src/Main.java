@@ -66,7 +66,23 @@ public class Main {
                 .filter(p -> "Books".equals(p.getCategory())) //ciclo i prodotti e trovo quelli di categoria Books
                 .filter(p -> p.getPrice() > 100) //tra i Books trovo quelli con price > 100
                 .toList(); //ritorno una lista di tutti i prodotti che ho trovato
-
+        System.out.println("ESERCIZIO 1");
         books.forEach(System.out::println);
+        System.out.println();
+
+
+        //esercizio 2: lista di ordini che appartengono alla categoria Baby
+        List<Order> babyOrders = ordersList.stream()
+                .filter(o -> o.getProducts().stream()
+                        .anyMatch(p -> "Baby".equals(p.getCategory())))
+                .toList();
+
+        System.out.println("ESERCIZIO 2");
+        babyOrders.forEach(System.out::println);
+        System.out.println();
+
+
+        //esercizio 3
+
     }
 }
