@@ -1,9 +1,9 @@
 public class Product {
     //attributi
+    public final double price;
     private final long id;
     private final String name;
     private final String category;
-    private final double price;
 
     // costruttore
     public Product(long id, String name, String category, double price) {
@@ -17,7 +17,7 @@ public class Product {
     public long getId() {
         return id;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -32,6 +32,6 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{ id=" + id + ", name='" + name + "', catgory='" + category + "' price=" + price + "}";
+        return "Product{ id=" + id + ", name='" + name + "', category='" + category + "' price=" + price + "}";
     }
 }

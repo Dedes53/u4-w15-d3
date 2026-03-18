@@ -4,6 +4,7 @@ import java.util.List;
 public class Main {
     static void main(String[] args) {
 
+        double sconto = 0.90;
         //customer
         Customer Homer = new Customer(123456789, "homer", 1);
         Customer Marge = new Customer(123456710, "marge", 2);
@@ -33,8 +34,8 @@ public class Main {
 
         Order o2 = new Order(
                 102,
-                LocalDate.of(2025, 2, 5),
-                LocalDate.of(2025, 2, 9),
+                LocalDate.of(2025, 3, 5),
+                LocalDate.of(2025, 3, 9),
                 Flanders,
                 "PENDING",
                 List.of(p3, p4)
@@ -42,8 +43,8 @@ public class Main {
 
         Order o3 = new Order(
                 103,
-                LocalDate.of(2025, 2, 20),
-                LocalDate.of(2025, 2, 25),
+                LocalDate.of(2025, 1, 20),
+                LocalDate.of(2025, 1, 25),
                 Flanders,
                 "DELIVERED",
                 List.of(p5)
@@ -72,17 +73,44 @@ public class Main {
 
 
         //esercizio 2: lista di ordini che appartengono alla categoria Baby
-        List<Order> babyOrders = ordersList.stream()
-                .filter(o -> o.getProducts().stream()
-                        .anyMatch(p -> "Baby".equals(p.getCategory())))
-                .toList();
+        List<Order> babyOrders = ordersList.stream() //avvio lo stream
+                .filter(o -> o.getProducts().stream() //ciclo gli ordini per ottenere gli ordini di ognuno, e su ognuno di questi avvio un altro stream
+                        .anyMatch(p -> "Baby".equals(p.getCategory()))) //tra tutti i prodotti trovo quelli che appartengono alla cat Baby
+                .toList(); //creo la lista degli ordini con prodotti con la cat Baby
 
         System.out.println("ESERCIZIO 2");
         babyOrders.forEach(System.out::println);
         System.out.println();
 
 
-        //esercizio 3
+        //esercizio 3: lista di prodotti che appartengono alla cat. Boys e applicare il 10% di sconto
+        List<Product> boys = productsList.stream() //avvio lo stream
+                .filter(p -> "Boys".equals(p.getCategory())) //trovo i prodotti di cat Boys
+                .map(p -> new Product( //per ogni prodotto trovato che creo una copia
+                        p.getId(),
+                        p.getName(),
+                        p.getCategory(),
+                        p.getPrice() * sconto)) //il prezzo dei nuovi prodotti con lo sconto applicato
+                .toList(); //creo la lista delle copie di prodotti Boys con lo sconto applicato
+
+        System.out.println("ESERCIZIO 3");
+        boys.forEach(System.out::println);
+        System.out.println();
+
+
+        //esercizio 4: lista di prodotti ordinati da clienti tier 2 tra 1-02-2025 e 1-04-2025
+        LocalDate from = LocalDate.of(2025, 2, 1);
+        LocalDate to = LocalDate.of(2025, 4, 1);
+
+        List<Product> orderTier2 = ordersList.stream() //avvio lo stream
+                .filter(o -> o.getCustomer().getTier() == 2) //filtro gli ordini in base se i clienti sono di tier 2
+                .filter(o -> !o.getOrderDate().isBefore(from) && !o.getOrderDate().isAfter(to)) //li filtro poi in case alla data in cui sono stati effettuati
+                .flatMap(o -> o.getProducts().stream()) //degli ordini rimasti ne prendo i prodotti
+                .toList(); //ne ritorno la lista di prodotti di ordini fatti da clienti tier2 entro le date
+
+        System.out.println("ESERCIZIO 4");
+        orderTier2.forEach(System.out::println);
+        System.out.println();
 
     }
 }
