@@ -61,5 +61,12 @@ public class Main {
         List<Order> ordersList = List.of(o1, o2, o3, o4);
 
 
+        //esercizio 1: lista prodotti Books con prezzo > 100
+        List<Product> books = productsList.stream() //avvio lo stream
+                .filter(p -> "Books".equals(p.getCategory())) //ciclo i prodotti e trovo quelli di categoria Books
+                .filter(p -> p.getPrice() > 100) //tra i Books trovo quelli con price > 100
+                .toList(); //ritorno una lista di tutti i prodotti che ho trovato
+
+        books.forEach(System.out::println);
     }
 }
